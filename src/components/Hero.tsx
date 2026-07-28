@@ -1,6 +1,6 @@
 import { ArrowDown, ArrowUpRight, Braces, MapPin } from 'lucide-react'
 import { type PointerEvent, useRef } from 'react'
-import type { SocialLink } from '../data/portfolio'
+import type { Portfolio, SocialLink } from '../data/portfolio'
 import { Reveal } from './Reveal'
 
 type HeroProps = {
@@ -18,9 +18,10 @@ type HeroProps = {
   }
   metrics: { value: string; label: string }[]
   socials: SocialLink[]
+  copy: Portfolio['interfaceCopy']['hero']
 }
 
-export function Hero({ person, metrics, socials }: HeroProps) {
+export function Hero({ person, metrics, socials, copy }: HeroProps) {
   const frameRef = useRef<HTMLDivElement>(null)
 
   const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
@@ -98,8 +99,8 @@ export function Hero({ person, metrics, socials }: HeroProps) {
           >
             <div className="identity-card__shine" aria-hidden="true" />
             <div className="identity-card__topline">
-              <span>Research ID</span>
-              <span>PSM / 004</span>
+              <span>{copy.researchIdLabel}</span>
+              <span>{copy.researchId}</span>
             </div>
             <div className="identity-card__portrait">
               <img
@@ -109,7 +110,7 @@ export function Hero({ person, metrics, socials }: HeroProps) {
                 height="3060"
                 fetchPriority="high"
               />
-              <span className="portrait-tab">Active</span>
+              <span className="portrait-tab">{copy.portraitStatus}</span>
             </div>
             <div className="identity-card__info">
               <div>
@@ -131,13 +132,13 @@ export function Hero({ person, metrics, socials }: HeroProps) {
 
           <div className="floating-tag floating-tag--code">
             <Braces size={16} aria-hidden="true" />
-            <span>Python · Julia</span>
+            <span>{copy.codeTag}</span>
           </div>
           <div className="floating-tag floating-tag--lab">
             <span className="floating-tag__glyph" aria-hidden="true">
               ∿
             </span>
-            <span>Network biology</span>
+            <span>{copy.researchTag}</span>
           </div>
         </Reveal>
       </div>
@@ -145,22 +146,15 @@ export function Hero({ person, metrics, socials }: HeroProps) {
       <div className="hero__footer">
         <p>{person.shortBio}</p>
         <a href="#focus">
-          Explore the work <ArrowDown size={15} aria-hidden="true" />
+          {copy.exploreLabel} <ArrowDown size={15} aria-hidden="true" />
         </a>
       </div>
       <div className="sequence-tape" aria-hidden="true">
-        <span>ATG</span>
-        <span>GCC</span>
-        <span>TTA</span>
-        <span>CGC</span>
-        <span>AAC</span>
-        <span>GGA</span>
-        <span>TCT</span>
-        <span>CAA</span>
-        <span>ATG</span>
-        <span>GCC</span>
-        <span>TTA</span>
-        <span>CGC</span>
+        {[...copy.sequence, ...copy.sequence.slice(0, 4)].map(
+          (sequence, index) => (
+            <span key={`${sequence}-${index}`}>{sequence}</span>
+          ),
+        )}
       </div>
     </section>
   )

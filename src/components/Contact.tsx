@@ -5,23 +5,19 @@ import {
   Mail,
   MessageCircle,
 } from 'lucide-react'
-import type { SocialLink } from '../data/portfolio'
+import type { Portfolio, SocialLink } from '../data/portfolio'
 import { Reveal } from './Reveal'
 
 type ContactProps = {
   person: {
     name: string
+    initials: string
     role: string
     institution: string
     email: string
   }
   socials: SocialLink[]
-  copy: {
-    eyebrow: string
-    prompt: string
-    title: string
-    footer: string
-  }
+  copy: Portfolio['contactCopy']
 }
 
 const iconByKind = {
@@ -38,7 +34,7 @@ export function Contact({ person, socials, copy }: ContactProps) {
       <div className="contact__orb contact__orb--two" aria-hidden="true" />
       <div className="container contact__inner">
         <Reveal className="contact__eyebrow">
-          <span>06</span>
+          <span>{copy.index}</span>
           <span>{copy.eyebrow}</span>
         </Reveal>
 
@@ -50,7 +46,7 @@ export function Contact({ person, socials, copy }: ContactProps) {
         <Reveal className="contact__grid" delay={120}>
           <div className="contact__profile">
             <span className="contact__initials" aria-hidden="true">
-              PSM
+              {person.initials}
             </span>
             <div>
               <strong>{person.name}</strong>
@@ -65,6 +61,7 @@ export function Contact({ person, socials, copy }: ContactProps) {
                 <a
                   key={social.label}
                   href={social.href}
+                  aria-label={social.label}
                   target={social.kind === 'email' ? undefined : '_blank'}
                   rel={social.kind === 'email' ? undefined : 'noreferrer'}
                 >

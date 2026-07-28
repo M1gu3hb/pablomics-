@@ -1,5 +1,6 @@
 import { Moon, Sun } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import type { Portfolio } from '../data/portfolio'
 
 const getInitialTheme = () => {
   const storedTheme = window.localStorage.getItem('psm-theme')
@@ -9,7 +10,11 @@ const getInitialTheme = () => {
     : 'light'
 }
 
-export function ThemeToggle() {
+type ThemeToggleProps = {
+  copy: Portfolio['interfaceCopy']['theme']
+}
+
+export function ThemeToggle({ copy }: ThemeToggleProps) {
   const [theme, setTheme] = useState<'light' | 'dark'>(getInitialTheme)
 
   useEffect(() => {
@@ -23,7 +28,7 @@ export function ThemeToggle() {
     <button
       className="theme-toggle"
       type="button"
-      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      aria-label={isDark ? copy.lightLabel : copy.darkLabel}
       aria-pressed={isDark}
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
     >

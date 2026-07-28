@@ -1,19 +1,21 @@
 import { ArrowLeft, ArrowUpRight, Clock3 } from 'lucide-react'
 import { useEffect } from 'react'
 import type { BlogPost as BlogPostData } from '../data/blogs'
+import type { Portfolio } from '../data/portfolio'
 
 type BlogPostProps = {
   post?: BlogPostData
+  copy: Portfolio['interfaceCopy']['blogPost']
 }
 
-export function BlogPost({ post }: BlogPostProps) {
+export function BlogPost({ post, copy }: BlogPostProps) {
   useEffect(() => {
     if (!post) {
-      document.title = 'Article not found — Pablo Salazar-Mendez'
+      document.title = copy.notFoundPageTitle
       return
     }
 
-    document.title = `${post.title} — Pablo Salazar-Mendez`
+    document.title = `${post.title} — ${copy.titleSuffix}`
     const description = document.querySelector<HTMLMetaElement>(
       'meta[name="description"]',
     )
@@ -21,25 +23,22 @@ export function BlogPost({ post }: BlogPostProps) {
     if (description) description.content = post.summary
 
     return () => {
-      document.title = 'Pablo Salazar-Mendez — Genomic Sciences'
+      document.title = copy.defaultPageTitle
       if (description && previousDescription) {
         description.content = previousDescription
       }
     }
-  }, [post])
+  }, [copy, post])
 
   if (!post) {
     return (
       <main className="blog-not-found" id="main-content">
-        <span>404 · Research log</span>
-        <h1>This article is not in the notebook.</h1>
-        <p>
-          The link may have changed, or the article may still be a private
-          draft.
-        </p>
+        <span>{copy.notFoundEyebrow}</span>
+        <h1>{copy.notFoundTitle}</h1>
+        <p>{copy.notFoundDescription}</p>
         <a href="/#blog">
           <ArrowLeft size={16} aria-hidden="true" />
-          Return to the blog
+          {copy.returnLabel}
         </a>
       </main>
     )
@@ -59,7 +58,7 @@ export function BlogPost({ post }: BlogPostProps) {
         <div className="blog-post__hero-inner">
           <a className="blog-post__back" href="/#blog">
             <ArrowLeft size={15} aria-hidden="true" />
-            All articles
+            {copy.allArticlesLabel}
           </a>
           <div className="blog-post__meta">
             <span>{post.category}</span>
@@ -72,16 +71,19 @@ export function BlogPost({ post }: BlogPostProps) {
           <h1>{post.title}</h1>
           <p>{post.introduction}</p>
           <div className="blog-post__specimen" aria-hidden="true">
-            <span>Article specimen</span>
-            <strong>PSM / BLOG</strong>
+            <span>{copy.specimenLabel}</span>
+            <strong>{copy.specimenCode}</strong>
             <i />
           </div>
         </div>
       </header>
 
       <div className="blog-post__layout">
-        <aside className="blog-post__contents" aria-label="Article contents">
-          <span>On this page</span>
+        <aside
+          className="blog-post__contents"
+          aria-label={copy.contentsAriaLabel}
+        >
+          <span>{copy.contentsLabel}</span>
           <nav>
             {post.sections.map((section, index) => (
               <a href={`#${section.id}`} key={section.id}>
@@ -110,6 +112,14 @@ export function BlogPost({ post }: BlogPostProps) {
                 </ul>
               ) : null}
               {section.quote ? <blockquote>{section.quote}</blockquote> : null}
+              {section.callout ? (
+                <aside className="blog-callout">
+                  {section.callout.title ? (
+                    <strong>{section.callout.title}</strong>
+                  ) : null}
+                  <p>{section.callout.content}</p>
+                </aside>
+              ) : null}
               {section.code ? (
                 <div className="blog-code">
                   <span>{section.code.language}</span>
@@ -125,11 +135,11 @@ export function BlogPost({ post }: BlogPostProps) {
 
       <footer className="blog-post__footer">
         <div>
-          <span>End of entry</span>
-          <strong>Continue exploring the research notebook.</strong>
+          <span>{copy.endLabel}</span>
+          <strong>{copy.endDescription}</strong>
         </div>
         <a href="/#blog">
-          Back to the blog <ArrowUpRight size={16} aria-hidden="true" />
+          {copy.backLabel} <ArrowUpRight size={16} aria-hidden="true" />
         </a>
       </footer>
     </main>

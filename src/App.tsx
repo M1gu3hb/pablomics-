@@ -51,22 +51,25 @@ export function App() {
   return (
     <>
       <a className="skip-link" href="#main-content">
-        Skip to content
+        {portfolio.interfaceCopy.skipLink}
       </a>
       <Navigation
         person={portfolio.person}
         socials={portfolio.socials}
         items={portfolio.navigation}
         isBlogRoute={isBlogRoute}
+        copy={portfolio.interfaceCopy.navigation}
+        themeCopy={portfolio.interfaceCopy.theme}
       />
       {isBlogRoute ? (
-        <BlogPost post={blogPost} />
+        <BlogPost post={blogPost} copy={portfolio.interfaceCopy.blogPost} />
       ) : (
         <main id="main-content">
           <Hero
             person={portfolio.person}
             metrics={portfolio.metrics}
             socials={portfolio.socials}
+            copy={portfolio.interfaceCopy.hero}
           />
           <FocusExplorer
             focusAreas={portfolio.focusAreas}

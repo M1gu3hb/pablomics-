@@ -1,6 +1,6 @@
 import { ArrowRight, FlaskConical } from 'lucide-react'
 import { useState } from 'react'
-import type { FocusProject, SectionCopy } from '../data/portfolio'
+import type { FocusProject, Portfolio } from '../data/portfolio'
 import { ResearchVisual } from './ResearchVisual'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
@@ -12,7 +12,7 @@ type FocusExplorerProps = {
     description: string
   }[]
   projects: FocusProject[]
-  copy: SectionCopy
+  copy: Portfolio['sectionCopy']['focus']
 }
 
 export function FocusExplorer({
@@ -20,7 +20,9 @@ export function FocusExplorer({
   projects,
   copy,
 }: FocusExplorerProps) {
-  const [activeId, setActiveId] = useState<FocusProject['id']>(projects[0].id)
+  const [activeId, setActiveId] = useState<FocusProject['id']>(
+    projects[0]?.id ?? '',
+  )
   const activeProject =
     projects.find((project) => project.id === activeId) ?? projects[0]
 
@@ -48,7 +50,7 @@ export function FocusExplorer({
 
         <Reveal className="project-lab" delay={120}>
           <div className="project-lab__tabs" role="tablist">
-            <span className="project-lab__label">Current questions</span>
+            <span className="project-lab__label">{copy.questionsLabel}</span>
             {projects.map((project) => (
               <button
                 key={project.id}
@@ -65,33 +67,43 @@ export function FocusExplorer({
             ))}
           </div>
 
-          <div
-            className="project-lab__panel"
-            role="tabpanel"
-            id={`panel-${activeProject.id}`}
-            aria-labelledby={`tab-${activeProject.id}`}
-            key={activeProject.id}
-          >
-            <div className="project-lab__copy">
-              <span className="project-index">{activeProject.index}</span>
-              <p className="project-eyebrow">{activeProject.eyebrow}</p>
-              <h3>{activeProject.title}</h3>
-              <p className="project-description">{activeProject.description}</p>
-              <blockquote>
-                <span>{activeProject.workLabel}</span>
-                {activeProject.question}
-              </blockquote>
-              <div className="method-list" aria-label="Methods and topics">
-                {activeProject.methods.map((method) => (
-                  <span key={method}>{method}</span>
-                ))}
+          {activeProject ? (
+            <div
+              className="project-lab__panel"
+              role="tabpanel"
+              id={`panel-${activeProject.id}`}
+              aria-labelledby={`tab-${activeProject.id}`}
+              key={activeProject.id}
+            >
+              <div className="project-lab__copy">
+                <span className="project-index">{activeProject.index}</span>
+                <p className="project-eyebrow">{activeProject.eyebrow}</p>
+                <h3>{activeProject.title}</h3>
+                <p className="project-description">
+                  {activeProject.description}
+                </p>
+                <blockquote>
+                  <span>{activeProject.workLabel}</span>
+                  {activeProject.question}
+                </blockquote>
+                <div className="method-list" aria-label={copy.methodsLabel}>
+                  {activeProject.methods.map((method) => (
+                    <span key={method}>{method}</span>
+                  ))}
+                </div>
+                <a href="#research">
+                  {copy.timelineLinkLabel}{' '}
+                  <ArrowRight size={15} aria-hidden="true" />
+                </a>
               </div>
-              <a href="#research">
-                See research timeline <ArrowRight size={15} aria-hidden="true" />
-              </a>
+              <ResearchVisual type={activeProject.visual} />
             </div>
-            <ResearchVisual type={activeProject.visual} />
-          </div>
+          ) : (
+            <div className="project-lab__empty">
+              <h3>{copy.emptyTitle}</h3>
+              <p>{copy.emptyDescription}</p>
+            </div>
+          )}
         </Reveal>
       </div>
     </section>

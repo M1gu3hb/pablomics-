@@ -1,11 +1,11 @@
 import { ArrowUpRight, BookOpen, MapPin } from 'lucide-react'
-import type { EducationItem, SectionCopy } from '../data/portfolio'
+import type { EducationItem, Portfolio } from '../data/portfolio'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
 
 type EducationProps = {
   items: EducationItem[]
-  copy: SectionCopy
+  copy: Portfolio['sectionCopy']['education']
 }
 
 export function Education({ items, copy }: EducationProps) {
@@ -26,13 +26,13 @@ export function Education({ items, copy }: EducationProps) {
                     <BookOpen size={17} aria-hidden="true" />
                   </span>
                   <span className={item.current ? 'is-current' : ''}>
-                    {item.current ? 'Current degree' : 'Previous studies'}
+                    {item.current ? copy.currentLabel : copy.previousLabel}
                   </span>
                   <a
                     href={item.href}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label={`Visit the ${item.degree} program`}
+                    aria-label={`${copy.visitLabel}: ${item.degree}`}
                   >
                     <ArrowUpRight size={17} aria-hidden="true" />
                   </a>

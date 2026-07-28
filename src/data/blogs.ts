@@ -13,6 +13,10 @@ export type BlogSection = {
   paragraphs: string[]
   highlights?: string[]
   quote?: string
+  callout?: {
+    title?: string
+    content: string
+  }
   code?: {
     language: string
     content: string
@@ -57,6 +61,10 @@ export type BlogPost = {
  *       ],
  *       highlights: ['Optional key point', 'Another optional key point'],
  *       quote: 'An optional pull quote.',
+ *       callout: {
+ *         title: 'Optional highlighted block title',
+ *         content: 'A short result, warning or idea to emphasize.',
+ *       },
  *     },
  *   ],
  * },
@@ -92,6 +100,11 @@ export const blogDesignPreview: BlogPost = {
         'Choose the evidence that could challenge it.',
         'Record assumptions before fitting a model.',
       ],
+      callout: {
+        title: 'Working principle',
+        content:
+          'Every computational choice should remain connected to the biological claim it is meant to test.',
+      },
     },
     {
       id: 'implementation',

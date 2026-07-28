@@ -1,12 +1,12 @@
 import { ArrowUpRight, BookOpenText, PenLine } from 'lucide-react'
 import type { BlogPost } from '../data/blogs'
-import type { SectionCopy } from '../data/portfolio'
+import type { Portfolio } from '../data/portfolio'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
 
 type BlogProps = {
   posts: BlogPost[]
-  copy: SectionCopy
+  copy: Portfolio['sectionCopy']['blog']
 }
 
 export function Blog({ posts, copy }: BlogProps) {
@@ -40,7 +40,8 @@ export function Blog({ posts, copy }: BlogProps) {
                   <div className="blog-card__footer">
                     <span>{post.readTime}</span>
                     <a href={`/blog/${post.slug}`}>
-                      Read article <ArrowUpRight size={15} aria-hidden="true" />
+                      {copy.readArticleLabel}{' '}
+                      <ArrowUpRight size={15} aria-hidden="true" />
                     </a>
                   </div>
                 </article>
@@ -53,16 +54,13 @@ export function Blog({ posts, copy }: BlogProps) {
               <PenLine size={26} aria-hidden="true" />
             </div>
             <div>
-              <span>Research blog · Volume 01</span>
-              <h3>Writing begins here.</h3>
-              <p>
-                Articles will appear here as soon as they are published from{' '}
-                <code>src/data/blogs.ts</code>.
-              </p>
+              <span>{copy.emptyEyebrow}</span>
+              <h3>{copy.emptyTitle}</h3>
+              <p>{copy.emptyDescription}</p>
             </div>
             <div className="blog-empty__mark" aria-hidden="true">
               <BookOpenText size={42} />
-              <span>PSM</span>
+              <span>{copy.emptyMark}</span>
             </div>
           </Reveal>
         )}

@@ -71,6 +71,7 @@ export const portfolio = {
   person: {
     name: 'Pablo Salazar-Mendez',
     initials: 'PSM',
+    brandLines: ['Pablo', 'Salazar'],
     role: 'Genomic Sciences undergraduate researcher',
     institution: 'National Autonomous University of Mexico',
     location: 'Morelos, Mexico',
@@ -118,6 +119,12 @@ export const portfolio = {
       title: 'Biology, translated into questions a computer can test.',
       description:
         'Three connected areas shape the work: biological context, computational methods and careful evaluation.',
+      questionsLabel: 'Current questions',
+      methodsLabel: 'Methods and topics',
+      timelineLinkLabel: 'See research timeline',
+      emptyTitle: 'Questions in progress.',
+      emptyDescription:
+        'Current research questions will appear here when they are added.',
     },
     research: {
       index: '02',
@@ -125,6 +132,20 @@ export const portfolio = {
       title: 'Learning inside real research environments.',
       description:
         'A timeline across genomics, systems biology, plant interactions and computational method assessment.',
+      filterLabel: 'Filter experiences',
+      filters: {
+        all: 'all',
+        current: 'current',
+        past: 'past',
+      },
+      entriesLabel: 'entries',
+      currentStatus: 'Current',
+      completedStatus: 'Completed',
+      roleLabel: 'Role',
+      groupLabel: 'Group',
+      mentorLabel: 'Mentor',
+      visitLabel: 'Visit',
+      emptyTitle: 'No research entries in this view.',
     },
     toolkit: {
       index: '03',
@@ -132,6 +153,10 @@ export const portfolio = {
       title: 'Tools are useful. The questions come first.',
       description:
         'A practical toolkit for coding, biological data analysis and method evaluation—shown without made-up proficiency percentages.',
+      boardIndex: '04',
+      boardEyebrow: 'Working groups',
+      boardTitle: 'One connected research practice.',
+      dialLabel: 'DATA',
     },
     education: {
       index: '04',
@@ -139,6 +164,9 @@ export const portfolio = {
       title: 'A biological foundation, now sharpened with computation.',
       description:
         'Formal training at UNAM across biology and genomic sciences.',
+      currentLabel: 'Current degree',
+      previousLabel: 'Previous studies',
+      visitLabel: 'Visit the program',
     },
     blog: {
       index: '05',
@@ -146,8 +174,14 @@ export const portfolio = {
       title: 'Research, methods and ideas—given room to unfold.',
       description:
         'Long-form articles about computational biology, code, experiments and lessons from the research process.',
+      readArticleLabel: 'Read article',
+      emptyEyebrow: 'Research blog · Volume 01',
+      emptyTitle: 'Writing begins here.',
+      emptyDescription:
+        'Articles will appear here as soon as they are published from src/data/blogs.ts.',
+      emptyMark: 'PSM',
     },
-  } satisfies Record<string, SectionCopy>,
+  },
   focusAreas: [
     {
       code: '01',
@@ -286,9 +320,53 @@ export const portfolio = {
     },
   ] satisfies EducationItem[],
   contactCopy: {
+    index: '06',
     eyebrow: 'Contact',
     prompt: 'Questions, collaborations or a good dataset?',
     title: 'Let’s compare notes.',
     footer: 'Built for curiosity. Edited from GitHub.',
   },
+  interfaceCopy: {
+    skipLink: 'Skip to content',
+    navigation: {
+      ariaLabel: 'Main navigation',
+      homeLabel: 'home',
+      cvLabel: 'CV',
+      openMenuLabel: 'Open navigation',
+      closeMenuLabel: 'Close navigation',
+    },
+    theme: {
+      lightLabel: 'Switch to light mode',
+      darkLabel: 'Switch to dark mode',
+    },
+    hero: {
+      researchIdLabel: 'Research ID',
+      researchId: 'PSM / 004',
+      portraitStatus: 'Active',
+      codeTag: 'Python · Julia',
+      researchTag: 'Network biology',
+      exploreLabel: 'Explore the work',
+      sequence: ['ATG', 'GCC', 'TTA', 'CGC', 'AAC', 'GGA', 'TCT', 'CAA'],
+    },
+    blogPost: {
+      titleSuffix: 'Pablo Salazar-Mendez',
+      defaultPageTitle: 'Pablo Salazar-Mendez — Genomic Sciences',
+      notFoundPageTitle: 'Article not found — Pablo Salazar-Mendez',
+      notFoundEyebrow: '404 · Research log',
+      notFoundTitle: 'This article is not in the notebook.',
+      notFoundDescription:
+        'The link may have changed, or the article may still be a private draft.',
+      returnLabel: 'Return to the blog',
+      allArticlesLabel: 'All articles',
+      specimenLabel: 'Article specimen',
+      specimenCode: 'PSM / BLOG',
+      contentsLabel: 'On this page',
+      contentsAriaLabel: 'Article contents',
+      endLabel: 'End of entry',
+      endDescription: 'Continue exploring the research notebook.',
+      backLabel: 'Back to the blog',
+    },
+  },
 }
+
+export type Portfolio = typeof portfolio

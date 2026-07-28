@@ -1,12 +1,12 @@
 import { ArrowUpRight, MapPin } from 'lucide-react'
 import { useState } from 'react'
-import type { ResearchExperience, SectionCopy } from '../data/portfolio'
+import type { Portfolio, ResearchExperience } from '../data/portfolio'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
 
 type ResearchProps = {
   experiences: ResearchExperience[]
-  copy: SectionCopy
+  copy: Portfolio['sectionCopy']['research']
 }
 
 type Filter = 'all' | 'current' | 'past'
@@ -27,7 +27,7 @@ export function Research({ experiences, copy }: ResearchProps) {
         </Reveal>
 
         <Reveal className="research-toolbar" delay={70}>
-          <div className="segmented-control" aria-label="Filter experiences">
+          <div className="segmented-control" aria-label={copy.filterLabel}>
             {(['all', 'current', 'past'] as Filter[]).map((option) => (
               <button
                 type="button"
@@ -35,12 +35,13 @@ export function Research({ experiences, copy }: ResearchProps) {
                 aria-pressed={filter === option}
                 onClick={() => setFilter(option)}
               >
-                {option}
+                {copy.filters[option]}
               </button>
             ))}
           </div>
           <span>
-            {visibleExperiences.length.toString().padStart(2, '0')} entries
+            {visibleExperiences.length.toString().padStart(2, '0')}{' '}
+            {copy.entriesLabel}
           </span>
         </Reveal>
 
@@ -63,7 +64,9 @@ export function Research({ experiences, copy }: ResearchProps) {
                         experience.current ? 'is-current' : ''
                       }`}
                     >
-                      {experience.current ? 'Current' : 'Completed'}
+                      {experience.current
+                        ? copy.currentStatus
+                        : copy.completedStatus}
                     </span>
                     <h3>{experience.shortName}</h3>
                   </div>
@@ -72,7 +75,7 @@ export function Research({ experiences, copy }: ResearchProps) {
                       href={experience.href}
                       target="_blank"
                       rel="noreferrer"
-                      aria-label={`Visit ${experience.organization}`}
+                      aria-label={`${copy.visitLabel} ${experience.organization}`}
                     >
                       <ArrowUpRight size={18} aria-hidden="true" />
                     </a>
@@ -83,15 +86,15 @@ export function Research({ experiences, copy }: ResearchProps) {
                 </p>
                 <div className="experience-card__body">
                   <div>
-                    <span>Role</span>
+                    <span>{copy.roleLabel}</span>
                     <strong>{experience.role}</strong>
                   </div>
                   <div>
-                    <span>Group</span>
+                    <span>{copy.groupLabel}</span>
                     <strong>{experience.group}</strong>
                   </div>
                   <div>
-                    <span>Mentor</span>
+                    <span>{copy.mentorLabel}</span>
                     <strong>{experience.mentor}</strong>
                   </div>
                 </div>
@@ -105,6 +108,9 @@ export function Research({ experiences, copy }: ResearchProps) {
               </article>
             </Reveal>
           ))}
+          {visibleExperiences.length === 0 ? (
+            <p className="timeline__empty">{copy.emptyTitle}</p>
+          ) : null}
         </div>
       </div>
     </section>

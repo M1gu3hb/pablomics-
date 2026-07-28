@@ -1,16 +1,19 @@
 import { ArrowUpRight, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import type { NavigationItem, SocialLink } from '../data/portfolio'
+import type { NavigationItem, Portfolio, SocialLink } from '../data/portfolio'
 import { ThemeToggle } from './ThemeToggle'
 
 type NavigationProps = {
   person: {
     initials: string
     name: string
+    brandLines: string[]
   }
   socials: SocialLink[]
   items: NavigationItem[]
   isBlogRoute: boolean
+  copy: Portfolio['interfaceCopy']['navigation']
+  themeCopy: Portfolio['interfaceCopy']['theme']
 }
 
 export function Navigation({
@@ -18,6 +21,8 @@ export function Navigation({
   socials,
   items,
   isBlogRoute,
+  copy,
+  themeCopy,
 }: NavigationProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('')
@@ -52,19 +57,22 @@ export function Navigation({
 
   return (
     <header className="site-header">
-      <nav className="nav-shell" aria-label="Main navigation">
+      <nav className="nav-shell" aria-label={copy.ariaLabel}>
         <a
           className="brand"
           href={isBlogRoute ? '/' : '#top'}
-          aria-label={`${person.name}, home`}
+          aria-label={`${person.name}, ${copy.homeLabel}`}
         >
           <span className="brand__mark" aria-hidden="true">
             {person.initials}
           </span>
           <span className="brand__name">
-            Pablo
-            <br />
-            Salazar
+            {person.brandLines.map((line, index) => (
+              <span key={line}>
+                {line}
+                {index < person.brandLines.length - 1 ? <br /> : null}
+              </span>
+            ))}
           </span>
         </a>
 
@@ -86,7 +94,7 @@ export function Navigation({
         </div>
 
         <div className="nav-actions">
-          <ThemeToggle />
+          <ThemeToggle copy={themeCopy} />
           {cv ? (
             <a
               className="nav-cv"
@@ -94,13 +102,15 @@ export function Navigation({
               target="_blank"
               rel="noreferrer"
             >
-              CV <ArrowUpRight size={14} aria-hidden="true" />
+              {copy.cvLabel} <ArrowUpRight size={14} aria-hidden="true" />
             </a>
           ) : null}
           <button
             className="menu-toggle"
             type="button"
-            aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
+            aria-label={
+              menuOpen ? copy.closeMenuLabel : copy.openMenuLabel
+            }
             aria-controls="primary-menu"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((isOpen) => !isOpen)}
