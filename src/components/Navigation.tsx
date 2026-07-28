@@ -1,6 +1,6 @@
 import { ArrowUpRight, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import type { SocialLink } from '../data/portfolio'
+import type { NavigationItem, SocialLink } from '../data/portfolio'
 import { ThemeToggle } from './ThemeToggle'
 
 type NavigationProps = {
@@ -9,23 +9,24 @@ type NavigationProps = {
     name: string
   }
   socials: SocialLink[]
+  items: NavigationItem[]
+  isBlogRoute: boolean
 }
 
-const navItems = [
-  { label: 'Focus', href: '#focus', id: 'focus' },
-  { label: 'Research', href: '#research', id: 'research' },
-  { label: 'Toolkit', href: '#toolkit', id: 'toolkit' },
-  { label: 'Education', href: '#education', id: 'education' },
-  { label: 'Notes', href: '#notes', id: 'notes' },
-]
-
-export function Navigation({ person, socials }: NavigationProps) {
+export function Navigation({
+  person,
+  socials,
+  items,
+  isBlogRoute,
+}: NavigationProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('')
   const cv = socials.find((social) => social.kind === 'cv')
 
   useEffect(() => {
-    const sections = navItems
+    if (isBlogRoute) return
+
+    const sections = items
       .map((item) => document.getElementById(item.id))
       .filter((section): section is HTMLElement => Boolean(section))
 
@@ -41,7 +42,7 @@ export function Navigation({ person, socials }: NavigationProps) {
 
     sections.forEach((section) => observer.observe(section))
     return () => observer.disconnect()
-  }, [])
+  }, [isBlogRoute, items])
 
   useEffect(() => {
     const closeMenu = () => setMenuOpen(false)
@@ -52,7 +53,11 @@ export function Navigation({ person, socials }: NavigationProps) {
   return (
     <header className="site-header">
       <nav className="nav-shell" aria-label="Main navigation">
-        <a className="brand" href="#top" aria-label={`${person.name}, home`}>
+        <a
+          className="brand"
+          href={isBlogRoute ? '/' : '#top'}
+          aria-label={`${person.name}, home`}
+        >
           <span className="brand__mark" aria-hidden="true">
             {person.initials}
           </span>
@@ -67,11 +72,11 @@ export function Navigation({ person, socials }: NavigationProps) {
           className={`nav-menu ${menuOpen ? 'nav-menu--open' : ''}`}
           id="primary-menu"
         >
-          {navItems.map((item) => (
+          {items.map((item) => (
             <a
               key={item.id}
               className={activeSection === item.id ? 'is-active' : ''}
-              href={item.href}
+              href={isBlogRoute ? `/${item.href}` : item.href}
               aria-current={activeSection === item.id ? 'location' : undefined}
               onClick={() => setMenuOpen(false)}
             >
@@ -107,4 +112,3 @@ export function Navigation({ person, socials }: NavigationProps) {
     </header>
   )
 }
-

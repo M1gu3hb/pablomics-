@@ -16,6 +16,12 @@ type ContactProps = {
     email: string
   }
   socials: SocialLink[]
+  copy: {
+    eyebrow: string
+    prompt: string
+    title: string
+    footer: string
+  }
 }
 
 const iconByKind = {
@@ -25,7 +31,7 @@ const iconByKind = {
   cv: Download,
 }
 
-export function Contact({ person, socials }: ContactProps) {
+export function Contact({ person, socials, copy }: ContactProps) {
   return (
     <footer className="contact" id="contact">
       <div className="contact__orb contact__orb--one" aria-hidden="true" />
@@ -33,12 +39,12 @@ export function Contact({ person, socials }: ContactProps) {
       <div className="container contact__inner">
         <Reveal className="contact__eyebrow">
           <span>06</span>
-          <span>Contact</span>
+          <span>{copy.eyebrow}</span>
         </Reveal>
 
         <Reveal className="contact__headline" delay={60}>
-          <p>Questions, collaborations or a good dataset?</p>
-          <h2>Let’s compare notes.</h2>
+          <p>{copy.prompt}</p>
+          <h2>{copy.title}</h2>
         </Reveal>
 
         <Reveal className="contact__grid" delay={120}>
@@ -75,7 +81,7 @@ export function Contact({ person, socials }: ContactProps) {
 
         <div className="contact__footer">
           <span>© {new Date().getFullYear()} {person.name}</span>
-          <span>Built for curiosity. Edited from GitHub.</span>
+          <span>{copy.footer}</span>
           <a href={`mailto:${person.email}`}>{person.email}</a>
         </div>
       </div>

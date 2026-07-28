@@ -1,4 +1,5 @@
 import { Asterisk, Braces, ChartNoAxesCombined, Dna } from 'lucide-react'
+import type { SectionCopy } from '../data/portfolio'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
 
@@ -7,21 +8,17 @@ type SkillsProps = {
     group: string
     items: string[]
   }[]
+  copy: SectionCopy
 }
 
 const skillIcons = [Braces, Dna, ChartNoAxesCombined, Asterisk]
 
-export function Skills({ groups }: SkillsProps) {
+export function Skills({ groups, copy }: SkillsProps) {
   return (
     <section className="section section--toolkit" id="toolkit">
       <div className="container">
         <Reveal>
-          <SectionHeading
-            index="03"
-            eyebrow="Working toolkit"
-            title="Tools are useful. The questions come first."
-            description="A practical toolkit for coding, biological data analysis and method evaluation—shown without made-up proficiency percentages."
-          />
+          <SectionHeading {...copy} />
         </Reveal>
 
         <div className="toolkit-board">
@@ -68,4 +65,3 @@ export function Skills({ groups }: SkillsProps) {
     </section>
   )
 }
-

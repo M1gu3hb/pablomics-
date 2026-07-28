@@ -11,6 +11,7 @@ type HeroProps = {
     location: string
     portrait: string
     portraitAlt: string
+    eyebrow: string
     headline: string
     introduction: string
     shortBio: string
@@ -50,7 +51,7 @@ export function Hero({ person, metrics, socials }: HeroProps) {
           <Reveal>
             <div className="hero__eyebrow">
               <span className="status-dot" aria-hidden="true" />
-              <span>Undergraduate research · UNAM</span>
+              <span>{person.eyebrow}</span>
             </div>
           </Reveal>
 
@@ -164,4 +165,3 @@ export function Hero({ person, metrics, socials }: HeroProps) {
     </section>
   )
 }
-

@@ -1,16 +1,17 @@
 import { ArrowUpRight, MapPin } from 'lucide-react'
 import { useState } from 'react'
-import type { ResearchExperience } from '../data/portfolio'
+import type { ResearchExperience, SectionCopy } from '../data/portfolio'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
 
 type ResearchProps = {
   experiences: ResearchExperience[]
+  copy: SectionCopy
 }
 
 type Filter = 'all' | 'current' | 'past'
 
-export function Research({ experiences }: ResearchProps) {
+export function Research({ experiences, copy }: ResearchProps) {
   const [filter, setFilter] = useState<Filter>('all')
   const visibleExperiences = experiences.filter((experience) => {
     if (filter === 'current') return experience.current
@@ -22,12 +23,7 @@ export function Research({ experiences }: ResearchProps) {
     <section className="section section--research" id="research">
       <div className="container">
         <Reveal>
-          <SectionHeading
-            index="02"
-            eyebrow="Research path"
-            title="Learning inside real research environments."
-            description="A timeline across genomics, systems biology, plant interactions and computational method assessment."
-          />
+          <SectionHeading {...copy} />
         </Reveal>
 
         <Reveal className="research-toolbar" delay={70}>
@@ -114,4 +110,3 @@ export function Research({ experiences }: ResearchProps) {
     </section>
   )
 }
-

@@ -1,62 +1,132 @@
 # Pablo Salazar-Mendez — Academic Portfolio
 
-Portafolio académico construido con React, TypeScript y CSS. El sitio está
-organizado para que el contenido pueda actualizarse sin tocar los componentes
-visuales.
+Portafolio académico construido con React, TypeScript y CSS. El contenido está
+separado del diseño para que Pablo pueda actualizar el sitio directamente desde
+GitHub sin tener que modificar los componentes.
 
-## La edición rápida
+## Dónde se edita cada sección
 
-Todo el contenido visible está en un solo archivo:
+| Sección de la página | Archivo | Propiedad que debes buscar |
+|---|---|---|
+| Menú superior | [`src/data/portfolio.ts`](src/data/portfolio.ts) | `navigation` |
+| Nombre, presentación y textos principales | [`src/data/portfolio.ts`](src/data/portfolio.ts) | `person` |
+| GitHub, correo, Bluesky y CV | [`src/data/portfolio.ts`](src/data/portfolio.ts) | `socials` |
+| Estadísticas del inicio | [`src/data/portfolio.ts`](src/data/portfolio.ts) | `metrics` |
+| Títulos y descripciones de las secciones | [`src/data/portfolio.ts`](src/data/portfolio.ts) | `sectionCopy` |
+| Research Focus | [`src/data/portfolio.ts`](src/data/portfolio.ts) | `focusAreas` |
+| Current Questions | [`src/data/portfolio.ts`](src/data/portfolio.ts) | `currentQuestions` |
+| Research Path y sus fechas | [`src/data/portfolio.ts`](src/data/portfolio.ts) | `researchPath` |
+| Working Toolkit | [`src/data/portfolio.ts`](src/data/portfolio.ts) | `toolkit` |
+| Education | [`src/data/portfolio.ts`](src/data/portfolio.ts) | `education` |
+| Blog y artículos completos | [`src/data/blogs.ts`](src/data/blogs.ts) | `blogs` |
+| Textos de contacto | [`src/data/portfolio.ts`](src/data/portfolio.ts) | `contactCopy` |
+| Fotografía principal | [`src/assets/pablo-salazar.jpg`](src/assets/pablo-salazar.jpg) | Reemplaza el archivo conservando el nombre |
+| Favicon | [`public/favicon.svg`](public/favicon.svg) | Reemplaza o edita el SVG |
+| Descripción para Google y redes | [`index.html`](index.html) | `description`, `og:*` y `title` |
+| Colores, tamaños y diseño | [`src/styles.css`](src/styles.css) | Variables dentro de `@layer tokens` |
 
-```text
-src/data/portfolio.ts
-```
+## Edición rápida desde GitHub
 
-Desde ahí puedes cambiar:
+1. Abre el archivo indicado en la tabla.
+2. Pulsa el icono de lápiz **Edit this file**.
+3. Cambia solamente el texto entre comillas o los elementos del arreglo.
+4. Pulsa **Commit changes**.
+5. Guarda directamente en `main` para publicar, o crea una rama para revisar
+   primero un Preview Deployment.
 
-- presentación, correo, ubicación y enlaces;
-- estadísticas;
-- áreas de interés y proyectos;
-- experiencia de investigación;
-- herramientas y habilidades;
-- educación;
-- notas o publicaciones.
+No cambies nombres como `person`, `researchPath`, `title` o `period`: son las
+claves que usa la página para ordenar el contenido.
 
-La fotografía principal está en:
+## Current Questions
 
-```text
-src/assets/pablo-salazar.jpg
-```
+La sección **Current Questions** se modifica en:
 
-Puedes reemplazarla conservando el mismo nombre. Para cambiar nombre, ruta o
-texto alternativo, edita la propiedad `portrait` dentro de
-`src/data/portfolio.ts`.
+[`src/data/portfolio.ts`](src/data/portfolio.ts)
 
-## Agregar una nota
-
-Busca `notes: []` en `src/data/portfolio.ts` y agrega objetos como este:
+Busca:
 
 ```ts
-notes: [
-  {
-    title: 'Título de la nota',
-    summary: 'Resumen breve que aparecerá en la tarjeta.',
-    date: '2026-08-15',
-    category: 'Research',
-    href: 'https://enlace-a-la-nota.com',
-  },
-],
+currentQuestions: [
 ```
 
-Las categorías admitidas son `Research`, `Code` y `Field note`. Si `notes`
-permanece vacío, el sitio muestra un estado editorial limpio sin inventar
+Cada objeto representa una pestaña. Puedes editar:
+
+- `eyebrow`: nombre corto de la línea de investigación;
+- `title`: título principal;
+- `description`: laboratorio, contexto o resumen;
+- `workLabel`: etiqueta que aparece sobre el texto destacado;
+- `question`: pregunta o descripción larga del trabajo;
+- `methods`: etiquetas de métodos y tecnologías;
+- `visual`: usa únicamente `'sequence'` o `'network'`.
+
+## Research Path y fechas
+
+La cronología se modifica en:
+
+[`src/data/portfolio.ts`](src/data/portfolio.ts)
+
+Busca:
+
+```ts
+researchPath: [
+```
+
+Para cada experiencia:
+
+- `period` controla la fecha completa visible;
+- `startYear` controla el año colocado sobre la línea cronológica;
+- `current: true` la muestra como actual;
+- `current: false` la muestra como finalizada;
+- `href` es opcional y enlaza al laboratorio.
+
+Las fechas actuales fueron contrastadas con el CV:
+
+- LIIGH: `Jun 2026 — Present`;
+- CCG: `Jan 2025 — Present`;
+- IBT: `Sep 2025 — May 2026`;
+- School of Chemistry: `Jan 2023 — Aug 2023`.
+
+## Crear y publicar un blog
+
+Todos los blogs viven exclusivamente en:
+
+[`src/data/blogs.ts`](src/data/blogs.ts)
+
+Dentro del archivo hay una plantilla completa lista para copiar. Cada artículo
+crea:
+
+- una tarjeta en la sección Blog;
+- una página individual en `/blog/slug-del-articulo`;
+- índice de contenidos;
+- párrafos, listas, citas y bloques de código;
+- título y descripción propios para el navegador.
+
+Reglas importantes:
+
+- `slug` debe usar minúsculas y guiones, sin espacios;
+- `publishedAt` usa el formato `AAAA-MM-DD`;
+- `published: false` mantiene el artículo como borrador privado;
+- `published: true` lo publica;
+- solo un artículo debería tener `featured: true`;
+- cada `id` de sección debe ser único dentro del artículo.
+
+Las categorías admitidas son `Research`, `Methods`, `Code` y `Fieldwork`. Si
+`blogs` está vacío, la página muestra un estado editorial limpio sin inventar
 artículos.
 
-## Agregar o corregir enlaces
+El diseño completo de lectura puede revisarse en
+[`/blog/design-preview?preview=1`](https://pablomics.vercel.app/blog/design-preview?preview=1).
+Es una página de demostración no listada y nunca aparece como artículo público.
 
-Los enlaces externos están en el arreglo `socials`. El perfil de Google Scholar
-no se incluyó porque la página anterior apuntaba al inicio genérico de Scholar,
-no a un perfil real. Agrégalo únicamente cuando tengas la URL completa.
+## Cambiar la fotografía
+
+Reemplaza:
+
+[`src/assets/pablo-salazar.jpg`](src/assets/pablo-salazar.jpg)
+
+Conserva exactamente el mismo nombre. Para cambiar el nombre del archivo o el
+texto alternativo de accesibilidad, edita `portrait` y `portraitAlt` dentro de
+[`src/data/portfolio.ts`](src/data/portfolio.ts).
 
 ## Desarrollo local
 
@@ -79,42 +149,30 @@ Build de producción:
 npm run build
 ```
 
-## Publicación
+## Publicación automática
 
-Vercel detecta Vite automáticamente. Una vez conectado este repositorio, cada
-cambio enviado a `main` genera un nuevo despliegue de producción. No se
-necesitan secretos ni variables de entorno para este sitio.
+GitHub está conectado a Vercel:
 
-### Flujo recomendado: GitHub → Vercel
+- cada commit enviado a `main` crea un deployment de producción;
+- cada rama o pull request genera un Preview Deployment;
+- no se necesitan secretos ni variables de entorno;
+- no subas manualmente `dist/`: Vercel ejecuta el build desde el código fuente.
 
-Para cambios pequeños de contenido:
-
-1. Edita `src/data/portfolio.ts` desde GitHub.
-2. Guarda el cambio directamente en `main`.
-3. Vercel construye y publica automáticamente la nueva versión.
-
-Para cambios visuales o de código:
-
-1. Crea una rama nueva.
-2. Abre un pull request hacia `main`.
-3. Revisa el Preview Deployment que Vercel agrega al pull request.
-4. Fusiona el pull request solo cuando la vista previa esté correcta.
-
-No subas manualmente la carpeta `dist/`. Vercel ejecuta el build desde el
-código fuente del repositorio.
-
-## Estructura
+## Estructura principal
 
 ```text
 src/
 ├── assets/
 │   └── pablo-salazar.jpg
-├── components/       # módulos visuales e interactivos
+├── components/
+│   ├── Blog.tsx
+│   └── BlogPost.tsx
 ├── data/
-│   └── portfolio.ts  # contenido editable
+│   ├── blogs.ts
+│   └── portfolio.ts
 ├── App.tsx
 ├── main.tsx
-└── styles.css        # sistema visual completo
+└── styles.css
 public/
 └── favicon.svg
 ```

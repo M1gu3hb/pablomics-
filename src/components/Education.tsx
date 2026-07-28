@@ -1,23 +1,19 @@
 import { ArrowUpRight, BookOpen, MapPin } from 'lucide-react'
-import type { EducationItem } from '../data/portfolio'
+import type { EducationItem, SectionCopy } from '../data/portfolio'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
 
 type EducationProps = {
   items: EducationItem[]
+  copy: SectionCopy
 }
 
-export function Education({ items }: EducationProps) {
+export function Education({ items, copy }: EducationProps) {
   return (
     <section className="section section--education" id="education">
       <div className="container">
         <Reveal>
-          <SectionHeading
-            index="04"
-            eyebrow="Education"
-            title="A biological foundation, now sharpened with computation."
-            description="Formal training at UNAM across biology and genomic sciences."
-          />
+          <SectionHeading {...copy} />
         </Reveal>
 
         <div className="education-grid">
@@ -58,4 +54,3 @@ export function Education({ items }: EducationProps) {
     </section>
   )
 }
-

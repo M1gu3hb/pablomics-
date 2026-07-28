@@ -1,6 +1,6 @@
 import { ArrowRight, FlaskConical } from 'lucide-react'
 import { useState } from 'react'
-import type { FocusProject } from '../data/portfolio'
+import type { FocusProject, SectionCopy } from '../data/portfolio'
 import { ResearchVisual } from './ResearchVisual'
 import { Reveal } from './Reveal'
 import { SectionHeading } from './SectionHeading'
@@ -12,11 +12,13 @@ type FocusExplorerProps = {
     description: string
   }[]
   projects: FocusProject[]
+  copy: SectionCopy
 }
 
 export function FocusExplorer({
   focusAreas,
   projects,
+  copy,
 }: FocusExplorerProps) {
   const [activeId, setActiveId] = useState<FocusProject['id']>(projects[0].id)
   const activeProject =
@@ -26,12 +28,7 @@ export function FocusExplorer({
     <section className="section section--focus" id="focus">
       <div className="container">
         <Reveal>
-          <SectionHeading
-            index="01"
-            eyebrow="Research focus"
-            title="Biology, translated into questions a computer can test."
-            description="Three connected areas shape the work: biological context, computational methods and careful evaluation."
-          />
+          <SectionHeading {...copy} />
         </Reveal>
 
         <div className="focus-cards">
@@ -81,7 +78,7 @@ export function FocusExplorer({
               <h3>{activeProject.title}</h3>
               <p className="project-description">{activeProject.description}</p>
               <blockquote>
-                <span>Working question</span>
+                <span>{activeProject.workLabel}</span>
                 {activeProject.question}
               </blockquote>
               <div className="method-list" aria-label="Methods and topics">
@@ -100,4 +97,3 @@ export function FocusExplorer({
     </section>
   )
 }
-

@@ -1,16 +1,33 @@
 import { useEffect } from 'react'
+import { Blog } from './components/Blog'
+import { BlogPost } from './components/BlogPost'
 import { Contact } from './components/Contact'
 import { Education } from './components/Education'
 import { FocusExplorer } from './components/FocusExplorer'
 import { Hero } from './components/Hero'
 import { Navigation } from './components/Navigation'
-import { Notes } from './components/Notes'
 import { Research } from './components/Research'
 import { Skills } from './components/Skills'
+import { blogDesignPreview, blogs } from './data/blogs'
 import { portfolio } from './data/portfolio'
 
 export function App() {
+  const blogSlug = window.location.pathname.match(/^\/blog\/([^/]+)\/?$/)?.[1]
+  const previewRequested =
+    new URLSearchParams(window.location.search).get('preview') === '1'
+  const publishedBlogPost = blogSlug
+    ? blogs.find((post) => post.slug === decodeURIComponent(blogSlug) && post.published)
+    : undefined
+  const blogPost =
+    publishedBlogPost ??
+    (previewRequested && blogSlug === blogDesignPreview.slug
+      ? blogDesignPreview
+      : undefined)
+  const isBlogRoute = Boolean(blogSlug)
+
   useEffect(() => {
+    if (isBlogRoute) return
+
     const sectionId = window.location.hash.slice(1)
     if (!sectionId) return
 
@@ -29,30 +46,53 @@ export function App() {
       window.cancelAnimationFrame(frame)
       window.removeEventListener('load', scrollToSection)
     }
-  }, [])
+  }, [isBlogRoute])
 
   return (
     <>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <Navigation person={portfolio.person} socials={portfolio.socials} />
-      <main id="main-content">
-        <Hero
-          person={portfolio.person}
-          metrics={portfolio.metrics}
-          socials={portfolio.socials}
-        />
-        <FocusExplorer
-          focusAreas={portfolio.focusAreas}
-          projects={portfolio.projects}
-        />
-        <Research experiences={portfolio.research} />
-        <Skills groups={portfolio.skills} />
-        <Education items={portfolio.education} />
-        <Notes notes={portfolio.notes} />
-        <Contact person={portfolio.person} socials={portfolio.socials} />
-      </main>
+      <Navigation
+        person={portfolio.person}
+        socials={portfolio.socials}
+        items={portfolio.navigation}
+        isBlogRoute={isBlogRoute}
+      />
+      {isBlogRoute ? (
+        <BlogPost post={blogPost} />
+      ) : (
+        <main id="main-content">
+          <Hero
+            person={portfolio.person}
+            metrics={portfolio.metrics}
+            socials={portfolio.socials}
+          />
+          <FocusExplorer
+            focusAreas={portfolio.focusAreas}
+            projects={portfolio.currentQuestions}
+            copy={portfolio.sectionCopy.focus}
+          />
+          <Research
+            experiences={portfolio.researchPath}
+            copy={portfolio.sectionCopy.research}
+          />
+          <Skills
+            groups={portfolio.toolkit}
+            copy={portfolio.sectionCopy.toolkit}
+          />
+          <Education
+            items={portfolio.education}
+            copy={portfolio.sectionCopy.education}
+          />
+          <Blog posts={blogs} copy={portfolio.sectionCopy.blog} />
+          <Contact
+            person={portfolio.person}
+            socials={portfolio.socials}
+            copy={portfolio.contactCopy}
+          />
+        </main>
+      )}
     </>
   )
 }
