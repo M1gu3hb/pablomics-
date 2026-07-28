@@ -85,6 +85,24 @@ Vercel detecta Vite automáticamente. Una vez conectado este repositorio, cada
 cambio enviado a `main` genera un nuevo despliegue de producción. No se
 necesitan secretos ni variables de entorno para este sitio.
 
+### Flujo recomendado: GitHub → Vercel
+
+Para cambios pequeños de contenido:
+
+1. Edita `src/data/portfolio.ts` desde GitHub.
+2. Guarda el cambio directamente en `main`.
+3. Vercel construye y publica automáticamente la nueva versión.
+
+Para cambios visuales o de código:
+
+1. Crea una rama nueva.
+2. Abre un pull request hacia `main`.
+3. Revisa el Preview Deployment que Vercel agrega al pull request.
+4. Fusiona el pull request solo cuando la vista previa esté correcta.
+
+No subas manualmente la carpeta `dist/`. Vercel ejecuta el build desde el
+código fuente del repositorio.
+
 ## Estructura
 
 ```text
